@@ -73,7 +73,7 @@ func (a *app) consoleCmd() *cobra.Command {
 			w := out
 			if scr == nil {
 				fmt.Fprintf(w, "%s %s\n", cli.Bold("CipherDrop control server · "+s.Config.Name), cli.Green("logged in (password + 2FA)"))
-				fmt.Fprintf(w, "  serving        https://%s (TLS 1.3, X25519MLKEM768)\n", s.Config.PublicAddr)
+				fmt.Fprintf(w, "  serving        https://%s (TLS 1.3, X25519)\n", s.Config.PublicAddr)
 				fmt.Fprintf(w, "  root CA        %s\n", cli.Gray(identity.Fingerprint(root)[:47]+"..."))
 				fmt.Fprintf(w, "  server key pin %s\n", cli.Gray(base64.StdEncoding.EncodeToString(pin[:])))
 			}

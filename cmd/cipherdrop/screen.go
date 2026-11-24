@@ -36,7 +36,7 @@ func consoleHeader(me *trust.Local, inbox string) string {
 		status = fmt.Sprintf("[yellow::b]certificate expires in %d day(s): ask the admin to run  renew %s[-:-:-]", int(left.Hours()/24), tui.Esc(me.Name))
 	}
 	return fmt.Sprintf("[::b]CipherDrop · %s[-:-:-] [gray](%s)[-]    "+status+"   [gray]chain[-] %s ← %s ← %s\n"+
-		"[gray]fingerprint[-] %s   [gray]QUIC[-] udp %s, mutual TLS 1.3, X25519MLKEM768   [gray]beacons[-] udp %d   [gray]inbox[-] %s",
+		"[gray]fingerprint[-] %s   [gray]QUIC[-] udp %s, mutual TLS 1.3, X25519   [gray]beacons[-] udp %d   [gray]inbox[-] %s",
 		tui.Esc(me.Name), tui.Esc(me.Department), tui.Esc(me.Name), tui.Esc(me.Cert.Issuer.CommonName), tui.Esc(me.Root.Subject.CommonName),
 		short(me.Fingerprint()), listenAddr(), discovery.Port, tui.Esc(inbox))
 }

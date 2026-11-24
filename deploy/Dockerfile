@@ -16,7 +16,7 @@ RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache
     go build -trimpath -ldflags="-s -w" -o /out/cipherdrop-ca ./cmd/cipherdrop-ca && \
     go build -trimpath -ldflags="-s -w" -o /out/rogue ./test/attacks/rogue
 
-# Debian 13 ships OpenSSL 3.5 (ML-KEM, Ed25519, `pkeyutl -rawin`).
+# Debian 13 ships OpenSSL 3.5 (Ed25519 certificates, `pkeyutl -rawin`).
 FROM debian:trixie-slim AS base
 # Fetch packages over HTTPS (a host-wide HTTP proxy cannot interfere, and
 # transport is encrypted as well as signature-checked). The slim image has no

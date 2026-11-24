@@ -213,7 +213,7 @@ func (a *app) serveCmd() *cobra.Command {
 				return err
 			}
 			s.Audit.Append("admin", "server_started", map[string]string{"addr": addr})
-			srv.Log.Printf("control server %q listening on https://%s (TLS 1.3, X25519MLKEM768)", s.Config.Name, addr)
+			srv.Log.Printf("control server %q listening on https://%s (TLS 1.3, X25519)", s.Config.Name, addr)
 			return srv.ListenAndServe(addr)
 		},
 	}

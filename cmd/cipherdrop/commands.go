@@ -127,7 +127,7 @@ func (a *app) consoleCmd() *cobra.Command {
 			w := rl.Stdout()
 			fmt.Fprintf(w, "%s %s\n", cli.Bold("CipherDrop · "+n.Local.Name), cli.Gray("("+n.Local.Department+")"))
 			fmt.Fprintf(w, "  fingerprint  %s\n", cli.Gray(n.Local.Fingerprint()))
-			fmt.Fprintf(w, "  listening    QUIC udp %s, mutual TLS 1.3, X25519MLKEM768\n", listenAddr())
+			fmt.Fprintf(w, "  listening    QUIC udp %s, mutual TLS 1.3, X25519\n", listenAddr())
 			fmt.Fprintf(w, "  inbox        %s\n", filepath.Join(store.Dir, "inbox"))
 
 			ctx, stop := context.WithCancel(cmd.Context())

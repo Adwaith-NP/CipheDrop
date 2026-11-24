@@ -1,6 +1,6 @@
 // Package transport builds CipherDrop's secure channel: QUIC (RFC 9000)
 // protected by TLS 1.3 (RFC 9001) with mutual certificate authentication
-// against the private CA and hybrid post-quantum key exchange.
+// against the private CA and an ephemeral X25519 (ECDHE) key exchange.
 package transport
 
 import (
@@ -19,11 +19,11 @@ import (
 // CipherDrop endpoint can never be confused with another QUIC service.
 const ALPN = "cipherdrop/1"
 
-// KeyExchange is the only key-exchange group CipherDrop allows:
-// X25519 combined with ML-KEM-768 (FIPS 203). Both ends run this binary, so
-// there is no reason to accept a classical-only group, and refusing one
-// removes any downgrade path.
-const KeyExchange = tls.X25519MLKEM768
+// KeyExchange is the only key-exchange group CipherDrop allows: ephemeral
+// elliptic-curve Diffie-Hellman on X25519 (RFC 7748), the standard TLS 1.3
+// group. A fresh key pair per connection gives forward secrecy. Both ends run
+// this binary, so allowing exactly one group leaves nothing to negotiate down.
+const KeyExchange = tls.X25519
 
 func baseConfig(local tls.Certificate, keyLog io.Writer) *tls.Config {
 	return &tls.Config{

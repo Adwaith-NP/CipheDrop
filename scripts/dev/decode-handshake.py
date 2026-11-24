@@ -17,7 +17,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import hmac, hashlib
 
 SALT = bytes.fromhex("38762cf7f55934b34d179ae6a4c80cadccbb7f0a")
-GROUPS = {0x11EC: "X25519MLKEM768", 0x001D: "x25519", 0x0017: "secp256r1"}
+GROUPS = {0x001D: "X25519", 0x0017: "secp256r1", 0x11EC: "X25519MLKEM768"}
 SUITES = {0x1301: "TLS_AES_128_GCM_SHA256", 0x1302: "TLS_AES_256_GCM_SHA384", 0x1303: "TLS_CHACHA20_POLY1305_SHA256"}
 
 def expand_label(secret, label, length):

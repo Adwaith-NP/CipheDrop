@@ -38,8 +38,8 @@ func TestConsoleScreenPreview(t *testing.T) {
 		Sender: evidence.Party{Name: "alice", Department: "finance"}, TotalSize: 52428950,
 		Files: []node.FileEntry{{Path: "payroll/october.csv"}, {Path: "payroll/scans.bin"}, {Path: "q3-summary.txt"}}}}}))
 	ui := &cli.Printer{W: scr}
-	ui.Printf("✓ alice (finance) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 891 922)")
-	ui.Printf("✓ carol (hr) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 041 985)")
+	ui.Printf("✓ alice (finance) verified (mutual TLS 1.3, both certificates checked, X25519, code 891 922)")
+	ui.Printf("✓ carol (hr) verified (mutual TLS 1.3, both certificates checked, X25519, code 041 985)")
 	ui.Printf("✗ UNVERIFIED device claiming \"bob\" at 192.168.56.66: certificate not trusted")
 	ui.Printf("[alice · finance] the October payroll files are ready   (signature verified)")
 	ui.Printf("incoming offer #1 from alice: 3 file(s), 50.0 MiB  type accept 1 or reject 1")

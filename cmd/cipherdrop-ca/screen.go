@@ -30,7 +30,7 @@ type rootScreen struct {
 
 func rootHeader(name, addr, rootFP, pin string) string {
 	return fmt.Sprintf("[::b]CipherDrop control server · %s[-:-:-]   [green]logged in (password + 2FA)[-]   [gray]locks after %v idle[-]\n"+
-		"[gray]serving[-] https://%s, TLS 1.3, X25519MLKEM768   [gray]root CA[-] %s…   [gray]server key pin[-] %s…",
+		"[gray]serving[-] https://%s, TLS 1.3, X25519   [gray]root CA[-] %s…   [gray]server key pin[-] %s…",
 		tui.Esc(name), idleLimit, tui.Esc(addr), rootFP[:23], pin[:16])
 }
 

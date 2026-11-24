@@ -19,13 +19,13 @@ sleep 0.5
 say "bob's side"
 dc exec -T bob cat /tmp/listen.log
 
-grep -q "key exchange   X25519MLKEM768" <<<"$out" || fail "hybrid post-quantum key exchange not negotiated"
+grep -q "key exchange   X25519" <<<"$out" || fail "X25519 key exchange not negotiated"
 grep -q "TLS            TLS 1.3" <<<"$out" || fail "not TLS 1.3"
 grep -q "reply: PONG bob" <<<"$out" || fail "no PONG from bob"
 code_a="$(awk '/verify code/ {print $3, $4}' <<<"$out")"
 code_b="$(dc exec -T bob awk '/verify code/ {print $3, $4}' /tmp/listen.log | tr -d '\r')"
 [ "$code_a" = "$code_b" ] || fail "verification codes differ: alice=$code_a bob=$code_b"
-pass "mutual TLS 1.3 over QUIC, X25519MLKEM768, codes match ($code_a)"
+pass "mutual TLS 1.3 over QUIC, X25519 key exchange, codes match ($code_a)"
 
 if [ "${KEYLOG:-0}" = "1" ]; then
   dc exec -T alice cat /tmp/alice-keylog.txt > docs/evidence/alice-keylog.txt

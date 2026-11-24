@@ -1,6 +1,6 @@
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ CipherDrop · bob (legal)    ● online   chain bob ← CipherDrop Issuing CA 1 ← CipherDrop Root CA                                                    │
-│ fingerprint F7:8D:27:A4…   QUIC udp :47475, mutual TLS 1.3, X25519MLKEM768   beacons udp 47474   inbox /var/lib/cipherdrop/inbox                   │
+│ fingerprint F7:8D:27:A4…   QUIC udp :47475, mutual TLS 1.3, X25519           beacons udp 47474   inbox /var/lib/cipherdrop/inbox                   │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ┌ Devices on the network ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │     NAME    DEPARTMENT   ADDRESS         STATE          VERIFY CODE   DETAILS                                                                      │
@@ -13,8 +13,8 @@
 │ 1   alice (finance)   3       50.0 MiB   payroll/october.csv, payroll/scans.bin, q3-summar…   accept 1  or  reject 1                               │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ┌ Messages and events ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│10:56:08  ✓ alice (finance) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 891 922)                                      │
-│10:56:08  ✓ carol (hr) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 041 985)                                           │
+│10:56:08  ✓ alice (finance) verified (mutual TLS 1.3, both certificates checked, X25519        , code 891 922)                                      │
+│10:56:08  ✓ carol (hr) verified (mutual TLS 1.3, both certificates checked, X25519        , code 041 985)                                           │
 │10:56:08  ✗ UNVERIFIED device claiming "bob" at 192.168.56.66: certificate not trusted                                                              │
 │10:56:08  [alice · finance] the October payroll files are ready   (signature verified)                                                              │
 │10:56:08  incoming offer #1 from alice: 3 file(s), 50.0 MiB  type accept 1 or reject 1                                                              │

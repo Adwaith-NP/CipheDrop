@@ -102,7 +102,7 @@ func TestMutualTLSHandshakeAndPing(t *testing.T) {
 		{"reply", reply, "PONG bob"},
 		{"request seen by receiver", srv.line, "PING alice"},
 		{"TLS version", sess.TLSVersion, "TLS 1.3"},
-		{"key exchange", sess.KeyExchange, "X25519MLKEM768"},
+		{"key exchange", sess.KeyExchange, "X25519"},
 		{"ALPN", sess.ALPN, ALPN},
 		{"receiver as seen by sender", sess.PeerName, "bob"},
 		{"sender as seen by receiver", srv.sess.PeerName, "alice"},
@@ -203,10 +203,10 @@ func TestAttacksAreRejected(t *testing.T) {
 			}},
 		{"sender cert from another CA", bob,
 			func() *tls.Config { return ClientConfig(rogueAlice.TLS, ca.Pool, "bob", "", nil) }},
-		{"downgrade to classical X25519", bob,
+		{"client offering only P-256 (no agreed group)", bob,
 			func() *tls.Config {
 				c := ClientConfig(alice.TLS, ca.Pool, "bob", "", nil)
-				c.CurvePreferences = []tls.CurveID{tls.X25519}
+				c.CurvePreferences = []tls.CurveID{tls.CurveP256}
 				return c
 			}},
 		{"wrong application protocol", bob,

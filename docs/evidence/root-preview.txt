@@ -1,6 +1,6 @@
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ CipherDrop control server · control   logged in (password + 2FA)   locks after 15m0s idle                                                          │
-│ serving https://192.168.56.2:47480, TLS 1.3, X25519MLKEM768   root CA 3A:9B:9E:E4:E9:99:51:8D…   server key pin WAfmVlmqECvFCEZL…                  │
+│ serving https://192.168.56.2:47480, TLS 1.3, X25519           root CA 3A:9B:9E:E4:E9:99:51:8D…   server key pin WAfmVlmqECvFCEZL…                  │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ┌ Registered devices ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ NAME         DEPARTMENT   STATE          ONLINE      REGISTERED     APPROVED (2FA)   FROM            CERT VALID TO   PURPOSE                       │

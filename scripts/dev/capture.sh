@@ -16,4 +16,4 @@ dc --profile capture rm -f sniffer >/dev/null
 mv docs/evidence/capture.pcap docs/evidence/p1-handshake.pcap
 packets="$(dc --profile capture run --rm --no-deps -T --entrypoint tcpdump sniffer -r /evidence/p1-handshake.pcap -nn 2>/dev/null | wc -l | tr -d ' ')"
 pass "captured $packets UDP packets to docs/evidence/p1-handshake.pcap"
-echo "In Wireshark: filter 'quic', open an Initial packet to see the ClientHello key_share group X25519MLKEM768 (0x11ec)."
+echo "In Wireshark: filter 'quic', open an Initial packet to see the ClientHello key_share group x25519 (0x001d)."

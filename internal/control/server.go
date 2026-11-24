@@ -65,8 +65,8 @@ func NewServer(s *Session, issuer Issuer) (*Server, error) {
 	}, nil
 }
 
-// TLSConfig is TLS 1.3 only, with the same hybrid post-quantum key exchange
-// as device-to-device traffic. Clients authenticate the server by key pin.
+// TLSConfig is TLS 1.3 only, with the same X25519 key exchange as
+// device-to-device traffic. Clients authenticate the server by key pin.
 func (srv *Server) TLSConfig() *tls.Config {
 	return &tls.Config{
 		MinVersion:       tls.VersionTLS13,

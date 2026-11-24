@@ -6,7 +6,7 @@ CipherDrop lets a small group of high-privilege machines on one office network
 send files and chat safely, even when the network itself is hostile.
 
 - Every connection is **QUIC with mutual TLS 1.3**.
-- The key exchange is the **hybrid post-quantum group X25519MLKEM768**.
+- The key exchange is **ephemeral X25519 (ECDHE)**, the standard TLS 1.3 group, so every connection gets fresh keys (forward secrecy).
 - A machine can join only with a **one-time link** plus the administrator's
   live **Google Authenticator code**. Its certificate comes from an
   **OpenSSL certificate authority**.
@@ -38,7 +38,7 @@ Group project for **MACS902 Modern Cryptography**.
 
 | Goal | How CipherDrop provides it |
 |---|---|
-| **Confidentiality** | TLS 1.3 AEAD (AES-128-GCM) on every QUIC packet. Keys come from an ephemeral hybrid X25519 + ML-KEM-768 exchange. |
+| **Confidentiality** | TLS 1.3 AEAD (AES-128-GCM) on every QUIC packet. Keys come from an ephemeral X25519 (ECDHE) exchange. |
 | **Integrity** | An AEAD tag on every packet. Each file's SHA-256 is listed in a signed manifest, and a file is kept only if its hash matches. |
 | **Authentication** | Mutual TLS: both sides need a certificate from the organisation's CA, the name must match, and the certificate fingerprint is pinned. |
 | **Non-repudiation** | The sender signs a manifest (proof of origin). The receiver signs a receipt bound to that manifest (proof of delivery). |
@@ -105,7 +105,7 @@ certificate is revoked as `superseded` in the OpenSSL CRL.
 
 | Purpose | Algorithm | Standard |
 |---|---|---|
-| Key exchange | X25519MLKEM768 (X25519 + ML-KEM-768), the only group allowed | RFC 7748, FIPS 203 |
+| Key exchange | X25519 elliptic-curve Diffie-Hellman (ECDHE), the only group allowed | RFC 7748, RFC 8446 |
 | Record encryption | AES-128-GCM / ChaCha20-Poly1305 (TLS 1.3) | SP 800-38D, RFC 8439 |
 | Key derivation | HKDF-SHA256 (TLS 1.3 key schedule) | RFC 5869, RFC 8446 |
 | Signatures | Ed25519: CAs, devices, releases, audit log, evidence | RFC 8032, RFC 8410 |
@@ -188,7 +188,7 @@ also be run on its own against the demo lab:
 | Command | What it proves |
 |---|---|
 | `make provision` | The full zero-trust flow: offline root → issuing CA → signed release → 2FA enrolment of alice, bob and carol |
-| `make ping` | alice ↔ bob over QUIC with mutual TLS 1.3 and X25519MLKEM768 |
+| `make ping` | alice ↔ bob over QUIC with mutual TLS 1.3 and the X25519 key exchange |
 | `make transfer` | A 50 MB folder sent while chatting. SHA-256 matches at both ends, the receipt is verified by **plain OpenSSL**, and an edited receipt is rejected. |
 | `make discovery` | Signed beacons plus two-way verification. Mallory's fake and replayed beacons show as not verified. |
 | `make renew` | Renewal: same name, new key, and the old certificate is revoked as *superseded* in the OpenSSL CRL |
@@ -202,8 +202,8 @@ Read the captured handshake without Wireshark (needs Python with
 python3 scripts/dev/decode-handshake.py docs/evidence/p1-handshake.pcap
 ```
 
-It shows that the ClientHello offers only X25519MLKEM768, with a 1,216-byte
-key share, and that the server picks it.
+It shows that the ClientHello offers only TLS 1.3 with the X25519 key share,
+that the server picks it, and that everything after the handshake is encrypted.
 
 ### Live attacks (`make attacks`, `make discovery`)
 

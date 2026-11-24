@@ -12,7 +12,7 @@ help:
 	@echo "make lab-up      build images, start root-ca, control, alice, bob, carol, mallory"
 	@echo "make provision   zero-trust provisioning: root -> issuing CA -> signed release -> 2FA enrolment"
 	@echo "make demo-setup  prepare the live demo with YOUR password and phone (see docs/DEMO.md)"
-	@echo "make ping        alice -> bob over QUIC + mutual TLS 1.3 (X25519MLKEM768)"
+	@echo "make ping        alice -> bob over QUIC + mutual TLS 1.3 (X25519 key exchange)"
 	@echo "make transfer    alice sends a folder to bob while chatting; receipt checked with OpenSSL"
 	@echo "make attacks     6 attacks (impersonation, fake server, tampering, stolen link, audit edit) must fail"
 	@echo "make capture     save a pcap of the handshake into docs/evidence/ (KEYLOG=1 to decrypt)"
