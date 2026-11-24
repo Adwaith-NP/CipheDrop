@@ -1,0 +1,115 @@
+# CipherDrop lab: every container belongs to the Compose project "cipherdrop".
+#
+#   root-ca  offline root CA + release signing key   no network at all
+#   control  control server: issuing CA, 2FA, slots   192.168.56.2
+#   alice    blank machine (bootstrap script only)    192.168.56.10
+#   bob      blank machine (bootstrap script only)    192.168.56.20
+#   carol    blank machine (bootstrap script only)    192.168.56.30
+#   mallory  attacker with the rogue tools            192.168.56.66
+#   sniffer  tcpdump on bob's interface (profile "capture"), stands in for
+#            a mirrored switch port or an ARP-spoofing Mallory
+#
+# Files move to and from root-ca only with `docker compose cp`, the lab's
+# equivalent of carrying a USB stick to an air-gapped machine.
+
+# CIPHERDROP_PROJECT / CIPHERDROP_NET let `make check` run a separate test
+# lab (cipherdrop-test on 192.168.57.0/24) next to the demo lab.
+name: ${CIPHERDROP_PROJECT:-cipherdrop}
+
+x-full: &full
+  image: cipherdrop:full
+  build:
+    context: .
+    dockerfile: deploy/Dockerfile
+    target: full
+  init: true
+
+x-blank: &blank
+  image: cipherdrop:blank
+  build:
+    context: .
+    dockerfile: deploy/Dockerfile
+    target: blank
+  init: true
+
+services:
+  root-ca:
+    <<: *full
+    hostname: root-ca
+    network_mode: none
+    volumes:
+      - root-data:/ca-root
+
+  control:
+    <<: *full
+    hostname: control
+    environment:
+      CIPHERDROP_LAB: "1" # enables `cipherdrop-ca dev totp` for scripted runs
+    networks:
+      lan:
+        ipv4_address: ${CIPHERDROP_NET:-192.168.56}.2
+    volumes:
+      - control-data:/var/lib/cipherdrop-ca
+
+  alice:
+    <<: *blank
+    hostname: alice
+    networks:
+      lan:
+        ipv4_address: ${CIPHERDROP_NET:-192.168.56}.10
+    volumes:
+      - alice-home:/var/lib/cipherdrop
+
+  bob:
+    <<: *blank
+    hostname: bob
+    networks:
+      lan:
+        ipv4_address: ${CIPHERDROP_NET:-192.168.56}.20
+    volumes:
+      - bob-home:/var/lib/cipherdrop
+
+  carol:
+    <<: *blank
+    hostname: carol
+    networks:
+      lan:
+        ipv4_address: ${CIPHERDROP_NET:-192.168.56}.30
+    volumes:
+      - carol-home:/var/lib/cipherdrop
+
+  mallory:
+    <<: *full
+    hostname: mallory
+    user: root
+    cap_add: [NET_ADMIN, NET_RAW]
+    networks:
+      lan:
+        ipv4_address: ${CIPHERDROP_NET:-192.168.56}.66
+    volumes:
+      - mallory-home:/var/lib/cipherdrop
+
+  sniffer:
+    <<: *full
+    profiles: ["capture"]
+    user: root
+    cap_add: [NET_ADMIN, NET_RAW]
+    network_mode: "service:bob"
+    volumes:
+      - ./docs/evidence:/evidence
+    command: ["tcpdump", "-i", "eth0", "-U", "-w", "/evidence/capture.pcap", "udp"]
+
+networks:
+  lan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${CIPHERDROP_NET:-192.168.56}.0/24
+
+volumes:
+  root-data:
+  control-data:
+  alice-home:
+  bob-home:
+  carol-home:
+  mallory-home:
