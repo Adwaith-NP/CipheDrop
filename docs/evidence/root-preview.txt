@@ -1,0 +1,34 @@
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ CipherDrop control server · control   logged in (password + 2FA)   locks after 15m0s idle                                                          │
+│ serving https://192.168.56.2:47480, TLS 1.3, X25519MLKEM768   root CA 3A:9B:9E:E4:E9:99:51:8D…   server key pin WAfmVlmqECvFCEZL…                  │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Registered devices ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ NAME         DEPARTMENT   STATE          ONLINE      REGISTERED     APPROVED (2FA)   FROM            CERT VALID TO   PURPOSE                       │
+│ carol        hr           enrolled       ○ offline   Nov 16 05:54   Nov 16 05:55     192.168.56.30   Feb 16 2027     staff records                 │
+│ bob          legal        waiting        -           Nov 16 05:53   -                -               -               contract archive              │
+│ alice        finance      enrolled       ● online    Nov 16 05:50   Nov 16 05:51     192.168.56.10   Feb 16 2027     payroll exports               │
+│ new-laptop   it           locked         -           Nov 16 06:00   -                -               -               attack demo                   │
+│ dave         sales        renew soon     -           Dec 16 05:50   Dec 16 05:50     192.168.56.40   Nov 28 2026     quarterly reports             │
+│ erin         it           cert expired   -           Nov 11 05:50   Nov 11 05:50     192.168.56.50   Nov 11 2026     backup server                 │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Unverified devices on the network ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     CLAIMED NAME   ADDRESS         PROBLEM                                                                  LAST SEEN                              │
+│ ✗   "bob"          192.168.56.66   certificate not trusted: x509: certificate signed by unknown authority   12:01:46                               │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Messages and events ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│12:01:46  ENROLLED alice (finance) from 192.168.56.10: 2FA proof valid, OpenSSL issued certificate serial 7F42E1CE1ACD1CDC                          │
+│12:01:46  ● alice (finance) is online at 192.168.56.10                                                                                              │
+│12:01:46  ⚠ UNVERIFIED device claiming "bob" at 192.168.56.66: certificate not trusted                                                              │
+│12:01:46  REFUSED enrolment for new-laptop (slot 9febbef9d9373e9b) from 192.168.56.66: wrong, expired or reused 2FA code [attempt 5/5]; slot locked │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+root>
+help · slot add <name> <dept> <purpose> [--days N] · renew <name> · slot cancel <name> · audit · clear · quit      ↑↓ history · PgUp/PgDn scroll ·

@@ -1,0 +1,36 @@
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ CipherDrop · bob (legal)    ● online   chain bob ← CipherDrop Issuing CA 1 ← CipherDrop Root CA                                                    │
+│ fingerprint F7:8D:27:A4…   QUIC udp :47475, mutual TLS 1.3, X25519MLKEM768   beacons udp 47474   inbox /var/lib/cipherdrop/inbox                   │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Devices on the network ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     NAME    DEPARTMENT   ADDRESS         STATE          VERIFY CODE   DETAILS                                                                      │
+│ ●   alice   finance      192.168.56.10   verified       891 922       mutual TLS 1.3 · cert 04:A7:AC:DE… · since 10:56:08                          │
+│ ●   carol   hr           192.168.56.30   verified       041 985       mutual TLS 1.3 · cert DB:BB:37:4C… · since 10:56:08                          │
+│ ✗   "bob"   ?            192.168.56.66   NOT VERIFIED                 certificate not trusted: x509: certificate signed by unknown authority       │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Waiting for your answer ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ #   FROM              FILES   SIZE       CONTENT                                              ANSWER                                               │
+│ 1   alice (finance)   3       50.0 MiB   payroll/october.csv, payroll/scans.bin, q3-summar…   accept 1  or  reject 1                               │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌ Messages and events ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│10:56:08  ✓ alice (finance) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 891 922)                                      │
+│10:56:08  ✓ carol (hr) verified (mutual TLS 1.3, both certificates checked, X25519MLKEM768, code 041 985)                                           │
+│10:56:08  ✗ UNVERIFIED device claiming "bob" at 192.168.56.66: certificate not trusted                                                              │
+│10:56:08  [alice · finance] the October payroll files are ready   (signature verified)                                                              │
+│10:56:08  incoming offer #1 from alice: 3 file(s), 50.0 MiB  type accept 1 or reject 1                                                              │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+│                                                                                                                                                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+bob>
+help · msg <device> <text> · send <device> <file|folder> · accept <n> · reject <n> · evidence · quit      ↑↓ history · PgUp/PgDn scroll · Ctrl-C quit
