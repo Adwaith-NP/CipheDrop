@@ -1,0 +1,75 @@
+# CipherDrop PKI configuration for OpenSSL 3.x, used by both CA tiers:
+#
+#   root CA     offline machine, signs only the issuing CA     (root-*.sh)
+#   issuing CA  control server, signs device certificates      (cipherdrop-ca)
+#
+# CA_HOME selects which CA directory is used. CD_DEVICE_NAME is the device
+# name for the SAN; scripts that don't issue device certs set it to "unused".
+
+CA_HOME = ${ENV::CA_HOME}
+
+[ ca ]
+default_ca = cipherdrop_ca
+
+[ cipherdrop_ca ]
+dir              = $CA_HOME
+certs            = $dir/certs
+new_certs_dir    = $dir/newcerts
+database         = $dir/index.txt
+serial           = $dir/serial
+crlnumber        = $dir/crlnumber
+certificate      = $dir/ca.crt
+private_key      = $dir/private/ca.key
+crl              = $dir/crl.pem
+# Device certificate validity when none is chosen (the admin can set it per
+# slot with --days; the control server passes -days explicitly).
+default_days     = 365
+default_crl_days = 30
+# Ed25519 hashes internally (PureEdDSA), so no separate digest is chosen.
+default_md       = default
+# Names are kept unique by the control server's enrolment slots. A renewal
+# briefly has two certificates for one subject (the new one is issued, then
+# the old one is revoked as "superseded"), so OpenSSL must allow that.
+unique_subject   = no
+# Never copy extensions from a CSR. The CA alone decides SAN and key usage.
+copy_extensions  = none
+policy           = policy_cipherdrop
+email_in_dn      = no
+preserve         = no
+
+[ policy_cipherdrop ]
+organizationName       = optional
+organizationalUnitName = optional
+commonName             = supplied
+
+[ req ]
+distinguished_name = req_dn
+prompt             = no
+
+[ req_dn ]
+CN = CipherDrop Root CA
+
+# Root CA: may sign exactly one level of CA below it.
+[ ext_root ]
+basicConstraints     = critical, CA:TRUE, pathlen:1
+keyUsage             = critical, keyCertSign, cRLSign
+subjectKeyIdentifier = hash
+
+# Issuing CA: signs device certificates only, never another CA.
+[ ext_issuing ]
+basicConstraints       = critical, CA:TRUE, pathlen:0
+keyUsage               = critical, keyCertSign, cRLSign
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always
+
+# Device: signs TLS handshakes, acts as both TLS client and server.
+[ ext_device ]
+basicConstraints       = critical, CA:FALSE
+keyUsage               = critical, digitalSignature
+extendedKeyUsage       = serverAuth, clientAuth
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always
+subjectAltName         = DNS:${ENV::CD_DEVICE_NAME}.cipherdrop.lan
+
+[ ext_crl ]
+authorityKeyIdentifier = keyid:always
